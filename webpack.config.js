@@ -9,20 +9,16 @@ const HandlebarsPlugin = require('handlebars-webpack-plugin')
 
 const devMode = process.env.NODE_ENV !== 'production'
 
-// Basic Path
-const PATHS = {
-  src: path.join(__dirname, 'src'),
-}
-
+// Paths
 const srcPath = path.join(__dirname, 'src')
-const templatePath = path.join(__dirname, 'template')
+const templatePath = path.join(__dirname, 'src/template')
 const buildPath = path.join(__dirname, 'dist')
 
 module.exports = {
   mode: 'development',
 
   entry: {
-    main: './src/index.js',
+    main: `${path.join(srcPath)}/index.js`,
   },
 
   output: {
@@ -110,8 +106,8 @@ module.exports = {
                     '@fullhuman/postcss-purgecss',
                     {
                       content: [
-                        path.join(__dirname, './public/index.html'),
-                        ...glob.sync(`${path.join(__dirname, 'src')}/**/*.js`, {
+                        path.join(templatePath, 'template.hbs'),
+                        ...glob.sync(`${path.join(srcPath)}/**/*.js`, {
                           nodir: true,
                         }),
                       ],
@@ -130,7 +126,7 @@ module.exports = {
                 fiber: require('fibers'), // 속도향상
               },
               additionalData: `
-              @import "${PATHS.src}/assets/scss/variables";
+              @import "${srcPath}/assets/scss/variables";
               `,
             },
           },
@@ -206,7 +202,7 @@ module.exports = {
 
     // * 사용안된 Css 제거 (dev)
     new PurgecssPlugin({
-      paths: glob.sync(`${PATHS.src}/**/*.css`, { nodir: true }),
+      paths: glob.sync(`${srcPath}/**/*.css`, { nodir: true }),
     }),
 
     new CleanWebpackPlugin(),

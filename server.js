@@ -22,11 +22,6 @@ app.use(
 
 app.use(express.static(__dirname))
 
-// // production
-// app.get('/*', (req, res) => {
-// res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-// })
-
 app.listen(port, function () {
   console.log(`개발서버 구동중이야... localhost:${port}`)
 })
