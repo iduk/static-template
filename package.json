@@ -1,0 +1,84 @@
+{
+  "name": "bootstrap5-webpack",
+  "version": "1.0.0",
+  "private": "false",
+  "author": "iduk",
+  "license": "MIT",
+  "homepage": "https://pictor.dev/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx webpack --watch",
+    "server": "node server.js",
+    "start": "npx webpack serve --open",
+    "build": "npx webpack",
+    "prod": "npx webpack --mode=production",
+    "deploy": "yarn prod && gh-pages -d dist",
+    "lint": "eslint \"src/**/*.js\" --fix",
+    "lint:sass": "sass-lint-auto-fix"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.5",
+    "@fullhuman/postcss-purgecss": "^4.1.3",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.2.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.3",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss-loader": "^6.2.1",
+    "postcss-preset-env": "^7.2.3",
+    "purgecss-webpack-plugin": "^4.1.3",
+    "sass-lint-auto-fix": "^0.21.2",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "stylelint": "^14.2.0",
+    "stylelint-config-recommended-scss": "^5.0.2",
+    "stylelint-order": "^5.0.0",
+    "stylelint-scss": "^4.1.0",
+    "url-loader": "^4.1.1",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "autoprefixer": "^10.4.0",
+    "axios": "^0.24.0",
+    "express": "^4.17.2",
+    "fibers": "^5.0.0",
+    "handlebars": "^4.7.7",
+    "handlebars-loader": "^1.7.1",
+    "handlebars-webpack-plugin": "^2.2.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.1.0",
+    "purgecss": "^4.1.3",
+    "sass": "^1.47.0",
+    "styled-components": "^5.3.3",
+    "webpack": "^5.65.0",
+    "webpack-dev-middleware": "^5.3.0",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "IE 10",
+    "firefox > 20"
+  ],
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint --fix",
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
