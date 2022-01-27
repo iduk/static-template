@@ -22,7 +22,7 @@ module.exports = {
   },
 
   output: {
-    filename: '[name].[hash].js',
+    filename: '[name].[contenthash].js',
     path: buildPath,
     assetModuleFilename: 'assets/[name][ext]', // 리소스 경로 구성
     clean: true, // 생성된 파일만 보임
@@ -107,7 +107,7 @@ module.exports = {
                     {
                       content: [
                         path.join(templatePath, 'template.hbs'),
-                        ...glob.sync(`${path.join(srcPath)}/**/*.js`, {
+                        ...glob.sync(`${srcPath}/**/*.js`, {
                           nodir: true,
                         }),
                       ],
@@ -167,21 +167,24 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(srcPath, 'template', 'template.hbs'),
+      template: path.join(templatePath, 'template.hbs'),
+      filename: path.join(buildPath, 'index.html'),
+      inject: false,
     }),
 
+    // handlebars
     new HandlebarsPlugin({
       htmlWebpackPlugin: {
         enabled: true,
         prefix: 'html',
       },
 
-      entry: path.join(srcPath, 'template', '*.hbs'),
+      entry: path.join(templatePath, '*.hbs'),
       output: path.join(buildPath, '[name].html'),
 
       partials: [
-        path.join(templatePath, 'template.hbs'),
-        path.join(srcPath, 'template', 'partials', '*.hbs'),
+        path.join(templatePath, '*', '*.hbs'),
+        path.join(templatePath, 'partials', '*', '*.hbs'),
       ],
 
       // hooks
