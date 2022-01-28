@@ -207,3 +207,11 @@ body {
     opacity: 0;
   }
 }
+
+/* Header Test */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid $primary;
+}

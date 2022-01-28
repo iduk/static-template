@@ -5,32 +5,32 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const PurgecssPlugin = require('purgecss-webpack-plugin')
 const purgecss = require('@fullhuman/postcss-purgecss')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const HandlebarsPlugin = require('handlebars-webpack-plugin')
 
 const devMode = process.env.NODE_ENV !== 'production'
 
 // Paths
-const srcPath = path.join(__dirname, 'src')
-const templatePath = path.join(__dirname, 'src/template')
-const buildPath = path.join(__dirname, 'dist')
+const PATHS = {
+  src: path.join(__dirname, 'src'),
+  dist: path.join(__dirname, 'dist'),
+}
 
 module.exports = {
   mode: 'development',
 
   entry: {
-    main: `${path.join(srcPath)}/index.js`,
+    main: './src/index.js',
   },
 
   output: {
     filename: '[name].[contenthash].js',
-    path: buildPath,
+    path: path.resolve(__dirname, './dist'),
     assetModuleFilename: 'assets/[name][ext]', // 리소스 경로 구성
     clean: true, // 생성된 파일만 보임
-    publicPath: '/',
+    // publicPath: '/',
   },
 
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ejs'],
   },
 
   // 최적화 설정
@@ -58,15 +58,6 @@ module.exports = {
       webSocketTransport: 'ws',
     },
     webSocketServer: 'ws',
-  },
-  stats: {
-    assets: true,
-    children: false,
-    colors: true,
-    entrypoints: false,
-    hash: false,
-    modules: false,
-    version: false,
   },
 
   module: {
@@ -106,8 +97,8 @@ module.exports = {
                     '@fullhuman/postcss-purgecss',
                     {
                       content: [
-                        path.join(templatePath, 'template.hbs'),
-                        ...glob.sync(`${srcPath}/**/*.js`, {
+                        path.join(__dirname, './src/index.js'),
+                        ...glob.sync(`${PATHS.src}/**/*.js`, {
                           nodir: true,
                         }),
                       ],
@@ -126,7 +117,7 @@ module.exports = {
                 fiber: require('fibers'), // 속도향상
               },
               additionalData: `
-              @import "${srcPath}/assets/scss/variables";
+              @import "./src/assets/scss/variables";
               `,
             },
           },
@@ -149,63 +140,42 @@ module.exports = {
         },
       },
       {
-        test: /\.svg/,
+        test: /\.svg/i,
         type: 'asset/inline',
       },
       // html
       {
-        test: /\.html$/,
+        test: /\.html$/i,
         loader: 'html-loader',
         options: { minimize: false },
       },
       {
-        test: /\.hbs$/,
-        loader: 'handlebars-loader',
+        test: /\.ejs$/,
+        loader: 'ejs-webpack-loader',
+        options: {
+          variable: 'data',
+          interpolate: '\\{\\{(.+?)\\}\\}',
+          evaluate: '\\[\\[(.+?)\\]\\]',
+        },
       },
     ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(templatePath, 'template.hbs'),
-      filename: path.join(buildPath, 'index.html'),
-      inject: false,
-    }),
-
-    // handlebars
-    new HandlebarsPlugin({
-      htmlWebpackPlugin: {
-        enabled: true,
-        prefix: 'html',
-      },
-
-      entry: path.join(templatePath, '*.hbs'),
-      output: path.join(buildPath, '[name].html'),
-
-      partials: [
-        path.join(templatePath, '*', '*.hbs'),
-        path.join(templatePath, 'partials', '*', '*.hbs'),
-      ],
-
-      // hooks
-      // getTargetFilepath: function (filepath, outputTemplate) {},
-      // getPartialId: function (filePath) {}
-      onBeforeSetup: function (Handlebars) {},
-      onBeforeAddPartials: function (Handlebars, partialsMap) {},
-      onBeforeCompile: function (Handlebars, templateContent) {},
-      onBeforeRender: function (Handlebars, data, filename) {},
-      onBeforeSave: function (Handlebars, resultHtml, filename) {},
-      onDone: function (Handlebars, filename) {},
+      // template에 반드시 이렇게 작성해야 제대로 먹힘..
+      template: '!!ejs-webpack-loader!src/index.ejs',
+      inject: true,
     }),
 
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[id].[contenthash].css',
+      chunkFilename: '[id].css',
     }),
 
     // * 사용안된 Css 제거 (dev)
     new PurgecssPlugin({
-      paths: glob.sync(`${srcPath}/**/*.css`, { nodir: true }),
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     }),
 
     new CleanWebpackPlugin(),
