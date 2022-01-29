@@ -14,6 +14,15 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 }
 
+let pageName = ['home']
+let multipleHtmlPlugins = pageName.map((name) => {
+  return new HtmlWebpackPlugin({
+    template: `./src/${name}.ejs`,
+    filename: `${name}.html`,
+    chunks: ['main'],
+  })
+})
+
 module.exports = {
   mode: 'development',
 
@@ -165,7 +174,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       // template에 반드시 이렇게 작성해야 제대로 먹힘..
       template: '!!ejs-webpack-loader!src/index.ejs',
-      inject: true,
+      chunks: ['main'],
     }),
 
     new MiniCssExtractPlugin({
@@ -179,5 +188,5 @@ module.exports = {
     }),
 
     new CleanWebpackPlugin(),
-  ],
+  ].concat(multipleHtmlPlugins),
 }

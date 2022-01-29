@@ -2532,6 +2532,13 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
+ejs-html-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/ejs-html-loader/-/ejs-html-loader-4.0.1.tgz#d1fc8ff0acb0cdc16347764c02bd5e84672a40eb"
+  integrity sha512-aBrpuqLQaDy76Yo/nT9+OOx4xJLOrQSFjTwpb/gKR/q1VQKMq22M36mYGTy4qeCGG9ofFWsXmyDoP/cqMWX4CA==
+  dependencies:
+    loader-utils "^1.2.3"
+
 ejs-loader@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/ejs-loader/-/ejs-loader-0.5.0.tgz#ebed0afaedd0a58c07fcc810cf001df3c24d6399"
@@ -4179,7 +4186,7 @@ loader-utils@^0.2.7:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.4.0:
+loader-utils@^1.2.3, loader-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.0.tgz#c579b5e34cb34b1a74edc6c1fb36bfa371d5a613"
   integrity sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
