@@ -1,6 +1,6 @@
 ## No Framework, 순정 프로젝트용
 
-Webpack Setup = Express + Handlebars + Sass & Css Modules  
+Webpack, Express, Sass & Css Modules    
 \*webpack@^5.6
 
 ---
@@ -14,6 +14,4 @@ Webpack Setup = Express + Handlebars + Sass & Css Modules
 ### 작업 환경
 
 - webpack + express 설정으로 작업환경과 배포환경을 설정해줌
-- handlebars 템플릿 엔진 활용  
-  block 요소를 분리(partial)시켜 호출할 수 있도록 컴파일해줌으로 html을 컴포넌트 형태로 작업 가능
 - Sass & Css Modules 사용
